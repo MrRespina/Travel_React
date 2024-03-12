@@ -8,7 +8,7 @@ class BookAFlight extends Component{
         goMonth:" ",
         toDay:" ",
         toMonth:" ",
-        username:"",
+        name:"",
         goTo:[{key:'ICN',val:'ICN',name:'인천'},
             {key:'SEL',val:'SEL',name:'김포'},
             {key:'CJU',val:'CJU',name:'제주'}],
@@ -30,8 +30,8 @@ class BookAFlight extends Component{
     }
     getMyUserName(){
         const searchParams = new URLSearchParams(window.location.search);
-        const name = searchParams.get('username');
-        this.setState({"username":name});
+        const name = searchParams.get('name');
+        this.setState({"name":name});
     }
     getAllDate(){
         const nowdate = new Date();
@@ -216,7 +216,7 @@ class BookAFlight extends Component{
                     <tr>
                         <td colSpan={4}>
                             <div style={{height:'40px'}}>
-                                <GoComp name={this.state.username} goDay={this.state.goDay} goMonth={this.state.goRealMonth} toDay={this.state.toDay} toMonth={this.state.toRealMonth}
+                                <GoComp name={this.state.name} goDay={this.state.goDay} goMonth={this.state.goRealMonth} toDay={this.state.toDay} toMonth={this.state.toRealMonth}
                                     goLocation={this.state.goLocation} toLocation={this.state.toLocation}>
                                 </GoComp>
                             </div>

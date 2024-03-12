@@ -86,9 +86,9 @@ const getHTML = async(goDay,goMonth,toDay,toMonth,goLocation,toLocation) =>{
             for(let j = 0; j < res.length; j++){             
                 if((res[j]==="ICN") || (res[j]==="SEL") || (res[j]==="CJU")){
                     inC = res[j];
-                    inTime = res[j+1];
+                    inTime = goM+"-"+goD+"/"+res[j+1];
                     outC = res[j+2];
-                    outTime = res[j+3];
+                    outTime = toM+"-"+toD+"/"+res[j+3];
                     layover = res[j+4];
                     if(layover !== "직항"){
                         layover = "경유";

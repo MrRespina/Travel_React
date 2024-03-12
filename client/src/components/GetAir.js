@@ -11,7 +11,7 @@ const GetAir = () => {
     const location = useLocation(); 
     let loc = changeLocation(location);
     const [check, setCheck] = useState(true);
-    const [user,setUser] = useState();
+    const [user,setUser] = useState("");
     const [date,setDate] = useState(true);
 
     useEffect(() => {
@@ -26,7 +26,8 @@ const GetAir = () => {
                         goLocation: location.state.goLocation,
                         toLocation: location.state.toLocation
                     }
-                });
+                });              
+                setUser(location.state.name);
                 setDates(response.data);
                 console.log(response.data);
                 setLoading(false);
@@ -51,13 +52,16 @@ const GetAir = () => {
                 <thead>
                     <tr className="getAirTr">
                         <td align="right" className="getAirTd" colSpan={8}>
-                            <Link to={{ pathname: '/'}}> 
+                            <Link to={{ 
+                                pathname: '/',
+                                search:'?name='+user
+                            }}>
                                 <button className="getBackButton">뒤로가기</button>
                             </Link>
                         </td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody align="center">
                     {(dates.length > 0 && check === true) && (
                         <>
                             <tr className="getAirTr">
@@ -83,7 +87,7 @@ const GetAir = () => {
                                         try {
                                             const response = await Axios.get(`http://localhost:3001/node/reserveTickets`, {
                                                 params: {
-                                                    name:location.state.name,
+                                                    name:user,
                                                     company: date.company,
                                                     toLocation: loc.l1,
                                                     inTime: date.inTime,
@@ -93,7 +97,6 @@ const GetAir = () => {
                                                     price: date.price
                                                 }
                                             });
-                                            setUser(location.state.name);
                                             console.log(response.data);
                                             setCheck(false);
                                             setDate(date);
@@ -115,10 +118,31 @@ const GetAir = () => {
                     )}   
                     {(!check && dates.length > 0) && (             
                         <div align="center">
-                            <p>{user}님 예약이 완료되었습니다!</p>
-                            <hr></hr>
-                            <p>예약 정보</p>
-                            <p>{date.company}</p>      
+                            <tr className="getAirTr">
+                                <td className="getAirTd" colSpan={7}>{user}님 예약이 완료되었습니다!</td>
+                            </tr>
+                            <tr className="getAirTr">
+                                <td className="getAirTd" colSpan={7}>예약 정보</td>
+                            </tr>
+                            <tr className="getAirTr">
+                                <td className="getAirTd" colSpan={1}>항공사</td>
+                                <td className="getAirTd" colSpan={1}>출발 공항</td>
+                                <td className="getAirTd" colSpan={1}>출발 시간</td>
+                                <td className="getAirTd" colSpan={1}>도착 공항</td>
+                                <td className="getAirTd" colSpan={1}>도착 시간</td>
+                                <td className="getAirTd" colSpan={1}>경유/직항</td>
+                                <td className="getAirTd" colSpan={1}>가격</td>
+                            </tr>
+                            <tr className="getAirTr">
+                                <td className="getAirTd" colSpan={1}>{date.company}</td>
+                                <td className="getAirTd" colSpan={1}>{loc.l1}</td>
+                                <td className="getAirTd" colSpan={1}>{date.inTime}</td>
+                                <td className="getAirTd" colSpan={1}>{loc.l2}</td>
+                                <td className="getAirTd" colSpan={1}>{date.outTime}</td>
+                                <td className="getAirTd" colSpan={1}>{date.layover}</td>
+                                <td className="getAirTd" colSpan={1}>{date.price}</td>
+                            </tr>
+                            
                         </div>
                     )}    
                 </tbody>

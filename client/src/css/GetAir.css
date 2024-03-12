@@ -9,6 +9,7 @@
 
 .getAirDiv{
     
+    font-family: 'Poppins', sans-serif;
     background: #008aff;
     width:100%;
 
@@ -31,6 +32,7 @@
 
 .getAirTd{
 
+    height:39.5px;
     text-align: center;
     border:white solid 1px;
     border-radius: 3px;
