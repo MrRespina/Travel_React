@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+ 
+ /*#2 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+ 
+ /*#3 */
+button {
+  /* button 요소에 기본적으로 설정되는 스타일 속성 초기화 */
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.mainTable{
+    margin-top:0px;
+    width: 450px;
+    height: 596px;
+}
+
+.getFlight{
+    font-size: 17px;
+    text-align: center;
+    border:black 1px solid;
+    border-radius: 3px;
+    background-color: white;
+}
+
+.flightFontTd{
+    color:white;
+}
+
+.goToWhere{
+    border-radius: 3px;
+    text-align: center;
+    width:100px;  
+    height:40px;
+}
+
+.resetBtn{
+    font-size: 17px;
+    text-align: center;
+    border:black 1px solid;
+    border-radius: 3px;
+    background-color: white;
+}
+
+.BookFlights {
+  display: flex;
+  height:596px;
+  align-items: center;
+  justify-content: center;
+  background: #008aff;
+}
+
+/* 달력 크기 / 외곽 둥글게  */
+.wrapper {
+    width: 450px;
+    height: 64vh;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+  }
+   
+  /* 년도 / 월 표시 및 이동 화살표 */
+  .wrapper .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .wrapper .nav .current-date {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .wrapper .nav button {
+    width: 38px;
+    height: 38px;
+    font-size: 30px;
+    color: #878787;
+  }
+
+  /* 요일/날짜 가로로 배치 */
+  .calendar ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .calendar .weeks li {
+    font-weight: 500;
+  }
+
+  .calendar .days {
+    margin-bottom: 10px;
+  }
+
+  .calendar ul li {
+    /* 요일/날짜 width 값 */
+    width: calc(100% / 7);
+    /* 오늘 날짜 표시 위치를 잡기 위한 position */
+    position: relative;
+  }
+
+  .calendar .days li {
+    /* li 요소들 z-index로 살짝식 띄어줌 */
+    z-index: 1;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+
+  .days li.active {
+    color: #fff;
+  }
+
+  .calendar .days li::before {
+    position: absolute;
+    content: '';
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: -1;
+  }
+
+
+
+  .days li:hover::before {
+    background-color: #f2f2f2;
+  }
+
+  .days li:active::before {
+
+    background-color: #999999;
+
+  }
+
+.monthInput {
+
+    border:none;border-right:0px; border-top:0px; border-left:0px; border-bottom:0px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+    width:100px;
+    text-align: center;
+
+}
+
+.dayInput {
+
+    border:none;border-right:0px; border-top:0px; border-left:0px; border-bottom:0px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+    width:50px;
+    text-align: center;
+    margin-left: 4px;
+
+}
+
+
+
+
+
