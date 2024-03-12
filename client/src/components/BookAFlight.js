@@ -238,7 +238,7 @@ const GoComp = ({ goDay, goMonth, toDay, toMonth , goLocation , toLocation , nam
             {/* 필요한 상태 변수들과 업데이트 함수를 이용하여 UI 구성 */}
             <Link
                 to={{
-                    pathname: '/node/1',
+                    pathname: '/node/getAir',
                 }}  
                 state = {{
                     name:name,

@@ -151,30 +151,7 @@ app.use(cors({
 // post 요청 시 값을 객체로 바꿔줌
 app.use(express.urlencoded({ extended: true }));
 
-// DB 내에 있는 데이터 SELECT 하기
-app.get("/node/1/getAllTickets", (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    
-    const sqlQuery = "SELECT * FROM tickets";
-
-    db.query(sqlQuery, (err, result) => {
-        res.send(result);
-    });
-});
-
-app.get("/node/1/getMyTickets", (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-
-    const username = req.query.username;
-    // console.log(username); // 사용자 이름 출력
-    const sqlQuery = "SELECT * FROM tickets WHERE username="+username;
-
-    db.query(sqlQuery, (err, result) => {
-        res.send(result);
-    });
-});
-
-app.get("/node/2/getTickets", async (req, res) => {
+app.get("/node/getTickets", async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
     var goDay = req.query.goDay;
@@ -188,7 +165,7 @@ app.get("/node/2/getTickets", async (req, res) => {
     res.send(val);
 });
 
-app.get("/node/2/reserveTickets", (req, res) => {
+app.get("/node/reserveTickets", (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
     // 사용자로부터 받은 매개변수
