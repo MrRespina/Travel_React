@@ -135,7 +135,7 @@ const db = mysql.createPool({
     host: "127.0.0.1", // 호스트
     user: "root",      // 데이터베이스 계정
     password: "sdj7524",      // 데이터베이스 비밀번호
-    database: "prac",  // 사용할 데이터베이스
+    database: "Travel",  // 사용할 데이터베이스
 });
 
 app.use(express.json());
