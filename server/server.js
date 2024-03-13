@@ -1,5 +1,4 @@
 const express = require("express"); // npm i express | yarn add express
-const axios = require("axios");
 const bodyParser = require('body-parser');
 const puppeteer = require("puppeteer");
 const cors    = require("cors");    // npm i cors | yarn add cors
