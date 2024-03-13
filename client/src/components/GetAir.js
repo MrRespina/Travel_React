@@ -17,8 +17,8 @@ const GetAir = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {               
-                const response = await Axios.get(`https://172.31.38.37:3001/node/getTickets`, {
-                //const response = await Axios.get(`https://localhost:3001/node/getTickets`, {
+                const response = await Axios.get(`http://172.31.38.37:3001/node/getTickets`, {
+                //const response = await Axios.get(`http://localhost:3001/node/getTickets`, {
                     params: {
                         goDay: location.state.goDay,
                         goMonth: location.state.goMonth,
@@ -86,8 +86,8 @@ const GetAir = () => {
                                     <td className="getAirTd" colSpan={1}>{date.price}</td>
                                     <td className="getAirTd" colSpan={1}><button className="submitButton" onClick={async () => {
                                         try {
-                                            const response = await Axios.get(`https://172.31.38.37:3001/node/reserveTickets`, {
-                                            // const response = await Axios.get(`https://localhost:3001/node/reserveTickets`, {
+                                            const response = await Axios.get(`http://172.31.38.37:3001/node/reserveTickets`, {
+                                            // const response = await Axios.get(`http://localhost:3001/node/reserveTickets`, {
                                                 params: {
                                                     name:user,
                                                     company: date.company,
