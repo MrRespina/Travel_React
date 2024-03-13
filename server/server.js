@@ -9,7 +9,7 @@ const PORT    = 3001; // 포트번호 설정
 const getHTML = async(goDay,goMonth,toDay,toMonth,goLocation,toLocation) =>{
     try{
 
-        const browser = await puppeteer.launch({headless:true}); // 브라우저 실행 (여기서 headless:false 속성을 주면 브라우저가 열리고 닫히는 과정을 시각적으로 볼 수 있다.
+        const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox'],headless:true}); // 브라우저 실행 (여기서 headless:false 속성을 주면 브라우저가 열리고 닫히는 과정을 시각적으로 볼 수 있다.
         const page = await browser.newPage(); // 새로운 페이지 열기
         const URL = "https://fly.interpark.com/booking/mainFlights.do?tripType=RT&sdate0=2024";
 
