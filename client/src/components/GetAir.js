@@ -41,8 +41,8 @@ const GetAir = () => {
     }, [location]);
     
     if (loading) {
-        return <div align="center" style={{width:'100%;',height:'auto;'}}>
-            <img src={loadingImg} alt=""/>
+        return <div align="center">
+            <img src={loadingImg} width="1545px;" height="820px;" alt=""/>
         </div>;
     }
 
