@@ -7,7 +7,7 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
- 
+
  /*#3 */
 button {
   /* button 요소에 기본적으로 설정되는 스타일 속성 초기화 */
@@ -18,54 +18,50 @@ button {
   cursor: pointer;
 }
 
-.mainTable{
-    margin-top:0px;
-    width: 450px;
-    height: 596px;
+option{
+  font-size:18px;
 }
 
-.getFlight{
-    font-size: 17px;
-    text-align: center;
-    border:black 1px solid;
-    border-radius: 3px;
-    background-color: white;
+.flex {
+  display: flex;
+  flex-direction: row; /* 요소를 가로로 배치합니다. */
+  justify-content: space-between; /* 가로 간격을 균등하게 설정합니다. */
+  align-items: center; /* 요소를 수직 정렬합니다. */
 }
 
-.flightFontTd{
-    color:white;
+.flex > * {
+  flex: 1; /* 각 요소가 가로로 확장됩니다. */
+}
+
+.flex > * {
+  width: calc(50% - 1rem); /* 가로 너비를 50%로 설정하고 간격을 조절합니다. */
+  margin-right: 40px;
 }
 
 .goToWhere{
     border-radius: 3px;
     text-align: center;
     width:100px;  
-    height:40px;
+    height:55px;
 }
 
-.resetBtn{
-    font-size: 17px;
-    text-align: center;
-    border:black 1px solid;
-    border-radius: 3px;
-    background-color: white;
-}
 
 .BookFlights {
   display: flex;
-  height:596px;
+  width:100%;
+  height:100%;
   align-items: center;
   justify-content: center;
-  background: #008aff;
 }
 
 /* 달력 크기 / 외곽 둥글게  */
 .wrapper {
-    width: 450px;
+    width: 500px;
     height: 64vh;
-    background: #fff;
+    background: #BFE4FF;
     border-radius: 10px;
-    padding: 15px;
+    padding: 10px;
+    margin-top: 20px;
   }
    
   /* 년도 / 월 표시 및 이동 화살표 */
@@ -77,6 +73,8 @@ button {
   }
 
   .wrapper .nav .current-date {
+    margin: 0px;
+    padding-top: 5px;
     font-size: 24px;
     font-weight: 600;
   }
@@ -88,6 +86,10 @@ button {
     color: #878787;
   }
 
+  .calendar{
+    width:100%;
+  }
+
   /* 요일/날짜 가로로 배치 */
   .calendar ul {
     display: flex;
@@ -96,11 +98,17 @@ button {
     text-align: center;
   }
 
+  .calendar .weeks{
+    margin-right: 2rem;
+    margin-bottom: 15px;
+  }
+
   .calendar .weeks li {
     font-weight: 500;
   }
 
   .calendar .days {
+    margin-right: 2rem;
     margin-bottom: 10px;
   }
 
@@ -115,6 +123,7 @@ button {
     /* li 요소들 z-index로 살짝식 띄어줌 */
     z-index: 1;
     margin-top: 15px;
+    margin-bottom: 15px;
     cursor: pointer;
   }
 
@@ -148,20 +157,22 @@ button {
 
 .monthInput {
 
-    border:none;border-right:0px; border-top:0px; border-left:0px; border-bottom:0px;
+    border:black solid 2px;
     font-family: 'Poppins', sans-serif;
     border-radius: 5px;
     width:100px;
+    margin-top: 5px;
     text-align: center;
 
 }
 
 .dayInput {
 
-    border:none;border-right:0px; border-top:0px; border-left:0px; border-bottom:0px;
+    border:black solid 2px;
     font-family: 'Poppins', sans-serif;
     border-radius: 5px;
     width:50px;
+    margin-top: 5px;
     text-align: center;
     margin-left: 4px;
 

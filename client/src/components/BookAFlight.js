@@ -97,21 +97,13 @@ class BookAFlight extends Component{
     render(){
 
         return(
-
             <div className="BookFlights">
-                <table className="mainTable" style={{height:'596px'}}>
-                    <tbody>
-                    <tr style={{height:'30px'}}>
-                        <td className="flightFontTd" align="center" colSpan={2}>
-                            출발지
-                        </td>
-                        <td className="flightFontTd" align="center" colSpan={2}>
-                            도착지
-                        </td>
-                    </tr>
-                    <tr style={{height:'42px'}}>
-                        <td className="flightInput" align="center" colSpan={2}>
-                            <select className='goToWhere' placeholder='출발지' size='3'>
+                <div className="accordion container-fluid mx-auto p-1 bg-light" style={{height:'100%',width:'100%'}}>
+                    <div className="flex flex-col md:flex-row justify-between items-center w-full bg-light" style={{height:'90px'}}>
+                        <div className="flex space-x-2" style={{height: '100%'}}>
+                            <div className="accordion-btn border text-black" align="center" style={{height:'90px'}}>
+                                <div align="center">출발지</div>
+                                <select className='goToWhere' size='2'>
                                 {this.state.goTo.map((opt) =>(
                                     <option key={opt.key} value={opt.val} onClick={function(){
                                         this.setState({"goLocation":opt.val})
@@ -120,10 +112,11 @@ class BookAFlight extends Component{
                                     </option>
                                 ))
                                 }
-                            </select>
-                        </td>
-                        <td className="flightInput" align="center" colSpan={2}>
-                        <select className='goToWhere' placeholder='도착지' size='3'>
+                                </select>
+                            </div>
+                            <div className="accordion-btn border text-black" align="center" style={{height:'90px'}}>
+                                <div align="center">도착지</div>
+                                <select className='goToWhere' size='2'>
                                 {this.state.toGo.map((opt) =>(
                                     <option key={opt.key} value={opt.val} onClick={function(){
                                         this.setState({"toLocation":opt.val})
@@ -132,58 +125,64 @@ class BookAFlight extends Component{
                                     </option>
                                 ))
                                 }
-                            </select>
-                        </td>
-                    </tr>
-                    <tr style={{width:'450px',height:'60px'}}>
-                        <td align="center" colSpan={1} style={{width:'160px',height:'60px'}}>
-                            <input className="monthInput" type="text" name="selectedMonth" readOnly="readOnly" value={this.state.goMonth}/>
-                            <input className="dayInput" type="text" name="selectedDay" readOnly="readOnly" value={this.state.goDay||""}/>
-                        </td>
-                        <td align="center" colSpan={1} style={{width:'65px',height:'60px'}}>
-                            <button name="resetDate" className="resetBtn" onClick={
-                                function(){
-                                    this.setState({goDay:" ",goMonth:" "});
-                                }.bind(this)
-                            }>초기화</button>
-                        </td>
-                        <td align="center" colSpan={1} style={{width:'160px',height:'60px'}}>
-                            <input className="monthInput" type="text" name="selectedMonth" readOnly="readOnly" value={this.state.toMonth||""}/>
-                            <input className="dayInput" type="text" name="selectedDay" readOnly="readOnly" value={this.state.toDay||""}/>
-                        </td>   
-                        <td align="center" colSpan={1} style={{width:'65px',height:'60px'}}>
-                            <button name="resetDate" className="resetBtn" onClick={
-                                function(){
-                                    this.setState({toDay:" ",toMonth:" "});
-                                }.bind(this)
-                            }>초기화</button>
-                        </td>                 
-                    </tr>
-                    <tr style={{height:'410px'}}>
-                        <td style={{height:'410px'}} colSpan={4}>
-                            <div className="wrapper" style={{height:'410px'}}>         
-                                <header>
-                                    <div className="nav">
-                                    {/* 이전/다음 달 버튼. 버튼을 누를 시, 선택일(selected) 초기화. 새 달 정보를 받아서 페이지를 새로 띄워줌. */}
-                                        <button className="material-icons" onClick={function(){               
-                                            let newmonth = this.state.month-1;
-                                                if(newmonth === -1){
-                                                    newmonth = 11;
-                                                }
-                                            const newmonthVal = this.getMonths(newmonth);
-                                            const days = this.getDayResult(this.state.year,newmonth);
-                                            this.setMyDate(this.state.year,newmonth,newmonthVal,days);
-                                        }.bind(this)}> &lt; </button>
-                                        <p className="current-date">{this.state.year} {this.state.monthVal}</p>
-                                        <button className="material-icons" onClick={function(){ 
-                                            let newmonth = this.state.month+1;
-                                            if(newmonth === 12){
-                                                newmonth = 1;
-                                            }
-                                            const newmonthVal = this.getMonths(newmonth);
-                                            const days = this.getDayResult(this.state.year,newmonth);
-                                            this.setMyDate(this.state.year,newmonth,newmonthVal,days);
-                                        }.bind(this)}> &gt; </button>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="flex space-x-2" style={{height: '100%'}}>
+                            <button id="departDateBtn" className="accordion-btn border p-2" style={{width:'100%',height: '100%'}}>가는편&nbsp;&nbsp;&nbsp;
+                                <button name="resetDate" className="accordion-btn border text-black" onClick={
+                                    function(){
+                                        this.setState({goDay:" ",goMonth:" "});
+                                    }.bind(this)
+                                }>초기화</button>
+                                <div>
+                                    <input className="monthInput" type="text" name="selectedMonth" readOnly="readOnly" value={this.state.goMonth}/>
+                                    <input className="dayInput" type="text" name="selectedDay" readOnly="readOnly" value={this.state.goDay||""}/>                                  
+                                </div>
+                            </button>
+                            <button id="departDateBtn" className="accordion-btn border p-2" style={{height: '100%'}}>오는편&nbsp;&nbsp;&nbsp;
+                                <button name="resetDate" className="accordion-btn border text-blacktext-black" onClick={
+                                    function(){
+                                        this.setState({toDay:" ",toMonth:" "});
+                                    }.bind(this)
+                                }>초기화</button>
+                                <div>
+                                    <input className="monthInput" type="text" name="selectedMonth" readOnly="readOnly" value={this.state.toMonth||""}/>
+                                    <input className="dayInput" type="text" name="selectedDay" readOnly="readOnly" value={this.state.toDay||""}/>
+                                </div>
+                            </button>
+                        </div>
+                        <div className="flex space-x-2" style={{height: '100%'}}>
+                            <GoComp name={this.state.name} goDay={this.state.goDay} goMonth={this.state.goRealMonth} toDay={this.state.toDay} toMonth={this.state.toRealMonth}
+                                goLocation={this.state.goLocation} toLocation={this.state.toLocation}>
+                            </GoComp>                           
+                        </div>                    
+                    </div>
+                    <div className="accordion-content" align="center">
+                        <div className="wrapper">         
+                            <header>
+                                <div className="nav">
+                                    <button className="material-icons" onClick={function(){               
+                                        let newmonth = this.state.month-1;
+                                        if(newmonth === -1){
+                                            newmonth = 11;
+                                        }
+                                        const newmonthVal = this.getMonths(newmonth);
+                                        const days = this.getDayResult(this.state.year,newmonth);
+                                        this.setMyDate(this.state.year,newmonth,newmonthVal,days);
+                                    }.bind(this)}> &lt; 
+                                    </button>
+                                    <p className="current-date">{this.state.year} {this.state.monthVal}</p>
+                                    <button className="material-icons" onClick={function(){ 
+                                        let newmonth = this.state.month+1;
+                                        if(newmonth === 12){
+                                            newmonth = 1;
+                                        }
+                                        const newmonthVal = this.getMonths(newmonth);
+                                        const days = this.getDayResult(this.state.year,newmonth);
+                                        this.setMyDate(this.state.year,newmonth,newmonthVal,days);
+                                    }.bind(this)}> &gt; 
+                                    </button>
                                     </div>
                                 </header>                       
                                 <div className="calendar">
@@ -207,23 +206,12 @@ class BookAFlight extends Component{
                                                 }                                
                                             }.bind(this)}>{day}</li>
                                         )}      
-                                    </ul>
-                                    {/* 뒤에 ||""를 추가해 준 이유는, 페이지 첫 로딩 때, state가 없다면 에러가 나기때문에 null이라면 ""(빈 값) 으로 주게끔 했음. */}                                                          
+                                    </ul>                                                         
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={4}>
-                            <div style={{height:'40px'}}>
-                                <GoComp name={this.state.name} goDay={this.state.goDay} goMonth={this.state.goRealMonth} toDay={this.state.toDay} toMonth={this.state.toRealMonth}
-                                    goLocation={this.state.goLocation} toLocation={this.state.toLocation}>
-                                </GoComp>
-                            </div>
-                        </td>
-                    </tr>           
-                </tbody>
-                </table>
+                    </div>
+                </div>
+                
             </div>
 
         );
@@ -234,7 +222,7 @@ class BookAFlight extends Component{
 
 const GoComp = ({ goDay, goMonth, toDay, toMonth , goLocation , toLocation , name }) => {
     return (
-        <div align="right">
+        <div align="right" style={{width:'100%',height: '100%'}}>
             {/* 필요한 상태 변수들과 업데이트 함수를 이용하여 UI 구성 */}
             <Link
                 to={{
@@ -250,7 +238,7 @@ const GoComp = ({ goDay, goMonth, toDay, toMonth , goLocation , toLocation , nam
                     toLocation:toLocation
                 }}
                 >
-                <button className="getFlight">정보받기</button>
+                <button className="bg-blue-500 text-black border p-2" style={{width:'100%',height: '100%'}}>검색하기</button>
             </Link>
         </div>
     );
