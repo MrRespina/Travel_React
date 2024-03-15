@@ -8,7 +8,7 @@ import { Route,Routes} from 'react-router-dom';
 class App extends Component {
   render(){
     return(
-      <div style={{height:'100%'}}>
+      <div>
 
         <Routes>
           <Route path='/node/getAir' element={<GetAir/>}></Route>

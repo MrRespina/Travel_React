@@ -42,7 +42,7 @@ const GetAir = () => {
     
     if (loading) {
         return <div align="center">
-            <img src={loadingImg} width="1545px;" height="820px;" alt=""/>
+            <img src={loadingImg} width="1780px;" height="800px;" alt=""/>
         </div>;
     }
 
