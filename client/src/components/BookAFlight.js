@@ -95,10 +95,10 @@ class BookAFlight extends Component{
         this.setMyDate(val[0],val[1],val[2],val[3]);
     }
     render(){
-
         return(
             <div className="BookFlights">
                 <div className="accordion container-fluid mx-auto p-1 bg-light" style={{height:'100%',width:'100%'}}>
+                    {/*  맨위 category div start */}
                     <div className="flex flex-col md:flex-row justify-between items-center w-full bg-light" style={{height:'90px'}}>
                         <div className="flex space-x-2" style={{height: '100%'}}>
                             <div className="accordion-btn border text-black" align="center" style={{height:'90px'}}>
@@ -158,6 +158,7 @@ class BookAFlight extends Component{
                             </GoComp>                           
                         </div>                    
                     </div>
+                    {/* 캘린더 div start */}
                     <div className="accordion-content" align="center">
                         <div className="wrapper">         
                             <header>
