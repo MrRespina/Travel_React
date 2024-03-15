@@ -1,0 +1,176 @@
+<label
+                for="date"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >검색</label
+              >
+              <form action="/place/searchByName" method="GET">
+                <div
+                  class="p-2 bg-gray-200 text-gray-700 font-semibold rounded"
+                >
+                  <input type="text" name="placename" id="placename" />
+                  <input type="submit" value="찾기" class="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600" 
+                  style="width: 75px; 
+                  height: 40px; 
+                  text-align: center; 
+                  border: none; 
+                  color: white; 
+                  border-radius: 5px; "/>
+                </div>
+              </form>
+            </div>
+            <div class="mb-4">
+              <label
+                for="location"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >종류</label
+              >
+              <form
+                action="/place/searchByCategory"
+                method="GET"
+                style="display: inline"
+              >
+                <input type="hidden" name="category" value="" />
+                <button
+                  class="p-2 bg-gray-200 text-gray-700 font-semibold rounded"
+                >
+                  전체
+                </button>
+              </form>
+              <form
+                action="/place/searchByCategory"
+                method="GET"
+                style="display: inline"
+              >
+                <input
+                  type="hidden"
+                  name="category"
+                  value="Historical Landmark"
+                />
+                <button
+                  class="p-2 bg-gray-200 text-gray-700 font-semibold rounded"
+                >
+                  명소
+                </button>
+              </form>
+              <form
+                action="/place/searchByCategory"
+                method="GET"
+                style="display: inline"
+              >
+                <input type="hidden" name="category" value="Restaurant" />
+                <button
+                  class="p-2 bg-gray-200 text-gray-700 font-semibold rounded"
+                >
+                  식당
+                </button>
+              </form>
+              <form
+                action="/place/searchByCategory"
+                method="GET"
+                style="display: inline"
+              >
+                <input type="hidden" name="category" value="Cafe" />
+                <button
+                  class="p-2 bg-gray-200 text-gray-700 font-semibold rounded"
+                >
+                  카페
+                </button>
+              </form>
+            </div>
+          </div>
+
+            <!-- 여기가 메인쿼리 -->
+
+            <div class="mb-4">
+              <label
+                for="results"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >검색결과</label
+              > 
+              <div>
+                <!-- 데이터 레코드를 반복하여 처리하는 반복문 -->
+                <div th:each="data : ${testDBData}" class="data-row">
+                  <!-- 데이터를 추가하기 위한 form 요소 -->
+                  <form action="/save/insert" method="GET">
+                    <!-- 데이터 항목을 각각의 input 태그로 설정 -->
+                    <input
+                      type="hidden"
+                      name="image"
+                      th:value="${data.image}"
+                    />
+                    <input
+                      type="hidden"
+                      name="placename"
+                      th:value="${data.placename}"
+                    />
+                    <input
+                      type="hidden"
+                      name="category"
+                      th:value="${data.category}"
+                    />
+                    <input
+                      type="hidden"
+                      name="address"
+                      th:value="${data.address}"
+                    />
+                    <input
+                      type="hidden"
+                      name="latitude"
+                      th:value="${data.latitude}"
+                    />
+                    <input
+                      type="hidden"
+                      name="longitude"
+                      th:value="${data.longitude}"
+                    />
+
+                    <!-- 이미지 -->
+                    <div class="data-cell">
+                      <img
+                        style="width: 80px; height: 80px"
+                        th:src="${data.image}"
+                        onerror="this.src='/errImg.jpg'; this.onerror=null;"
+                      />
+                    </div>
+
+                    <!-- 이름 -->
+                    <div class="data-cell">
+                      <span
+                        th:text="${#strings.length(data.placename) &gt; 10} ? ${#strings.substring(data.placename, 0, 10)} + '...' : ${data.placename}"
+                        th:title="${data.placename}"
+                      ></span>
+                    </div>
+
+                    <!-- 카테고리 -->
+                    <div class="data-cell" th:text="${data.category}"></div>
+
+                    <!-- 주소 -->
+                    <div class="data-cell">
+                      <span
+                        th:text="${#strings.length(data.address) &gt; 20} ? ${#strings.substring(data.address, 0, 20)} + '...' : ${data.address}"
+                        th:title="${data.address}"
+                      ></span>
+                    </div>
+
+                    <!-- 위도 -->
+                    <div class="data-cell" th:text="${data.latitude}"></div>
+
+                    <!-- 경도 -->
+                    <div class="data-cell" th:text="${data.longitude}"></div>
+
+                    <!-- 저장 버튼 -->
+                    <div class="flex justify-end">
+                      <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"  id="locationSaveBtn">저장</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- gpt질문 끝 -->
+
+            <!-- 여기가 서브쿼리 -->
+            
+            <!-- 삭제 된 부분 여기 -->
+            
+            
+            

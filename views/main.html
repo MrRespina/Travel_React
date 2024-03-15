@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Geocoding Service</title>
+    <style>
+      body {
+        font-size: 20px;
+      }
+    </style>
+    <script>
+      // 기존 세션 스토리지에서 데이터 삭제
+      sessionStorage.removeItem("tag");
+      sessionStorage.removeItem("nav");
+      // 세션 스토리지에 데이터 저장
+      sessionStorage.setItem("tag", "100");
+      sessionStorage.setItem("nav", "200");
+    </script>
+  </head>
+  <body>
+    <form action="/mainpage" method="get">
+      <div>
+        <input name="name" type="text" value="제주도" />
+        <input name="start_day" type="text" value="2024.03.15" />
+        <input name="end_day" type="text" value="2024.03.17" />
+        <input type="submit" value="일정짜기" />
+      </div>
+    </form>
+    <br /><br />
+    <label>나의 여행계획표</label>
+    <table border="1">
+      <tr>
+        <th>키값</th>
+        <th>여행지역</th>
+        <th>사진</th>
+        <th>관광지</th>
+        <th>주소</th>
+        <th>여행일</th>
+      </tr>
+      {% for data in finals %}
+      <form id="deleteForm_{{ data.key }}" action="/delete" method="post">
+        <input type="hidden" name="key" value="{{ data.key }}" />
+        <tr align="center">
+          <td>{{ data.key }}</td>
+          <td>{{ data.search }}</td>
+          <td>{{ data.photo }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.addr }}</td>
+          <td>{{ data.dDay }}</td>
+          <td>
+            <button type="button" onclick="submitForm('{{ data.key }}')">
+              삭제
+            </button>
+          </td>
+        </tr>
+      </form>
+      {% endfor %}
+    </table>
+    <script>
+      function submitForm(key) {
+        // 해당 키값을 가지는 폼을 찾아서 제출
+        document.getElementById("deleteForm_" + key).submit();
+      }
+    </script>
+  </body>
+</html>

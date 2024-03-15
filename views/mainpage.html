@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Planner</title>
+    <link rel="stylesheet" type="text/css" href="../public/index.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="../public/index.js"></script>
+    <style>
+      @import "https://fonts.googleapis.com/css?family=Open+Sans:600,700";
+
+      * {
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .rwd-table {
+        margin: auto;
+        min-width: 300px;
+        max-width: 100%;
+        border-collapse: collapse;
+      }
+
+      .rwd-table tr:first-child {
+        border-top: none;
+        background: #428bca;
+        color: #fff;
+      }
+
+      .rwd-table tr {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        background-color: #f5f9fc;
+      }
+
+      .rwd-table tr:nth-child(odd):not(:first-child) {
+        background-color: #ebf3f9;
+      }
+
+      .rwd-table th {
+        display: none;
+      }
+
+      .rwd-table td {
+        display: block;
+      }
+
+      .rwd-table td:first-child {
+        margin-top: 0.5em;
+      }
+
+      .rwd-table td:last-child {
+        margin-bottom: 0.5em;
+      }
+
+      .rwd-table td:before {
+        content: attr(data-th) ": ";
+        font-weight: bold;
+        width: 120px;
+        display: inline-block;
+        color: #000;
+      }
+
+      .rwd-table th,
+      .rwd-table td {
+        text-align: left;
+      }
+
+      .rwd-table {
+        color: #333;
+        border-radius: 0.4em;
+        overflow: hidden;
+      }
+
+      .rwd-table tr {
+        border-color: #bfbfbf;
+      }
+
+      .rwd-table th,
+      .rwd-table td {
+        padding: 0.5em 1em;
+      }
+      @media screen and (max-width: 601px) {
+        .rwd-table tr:nth-child(2) {
+          border-top: none;
+        }
+      }
+      @media screen and (min-width: 600px) {
+        .rwd-table tr:hover:not(:first-child) {
+          background-color: #d8e7f3;
+        }
+        .rwd-table td:before {
+          display: none;
+        }
+        .rwd-table th,
+        .rwd-table td {
+          display: table-cell;
+          padding: 0.25em 0.5em;
+        }
+        .rwd-table th:first-child,
+        .rwd-table td:first-child {
+          padding-left: 0;
+        }
+        .rwd-table th:last-child,
+        .rwd-table td:last-child {
+          padding-right: 0;
+        }
+        .rwd-table th,
+        .rwd-table td {
+          padding: 1em !important;
+        }
+      }
+
+      /* THE END OF THE IMPORTANT STUFF */
+
+      /* Basic Styling */
+      h1 {
+        text-align: center;
+        font-size: 2.4em;
+        color: black;
+      }
+      .containerT {
+        display: block;
+        text-align: center;
+      }
+      h3 {
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        font-size: 1.5em;
+        color: #cecece;
+      }
+      h3:before {
+        content: "\25C0";
+        position: absolute;
+        left: -50px;
+        -webkit-animation: leftRight 2s linear infinite;
+        animation: leftRight 2s linear infinite;
+      }
+      h3:after {
+        content: "\25b6";
+        position: absolute;
+        right: -50px;
+        -webkit-animation: leftRight 2s linear infinite reverse;
+        animation: leftRight 2s linear infinite reverse;
+      }
+      @-webkit-keyframes leftRight {
+        0% {
+          -webkit-transform: translateX(0);
+        }
+        25% {
+          -webkit-transform: translateX(-10px);
+        }
+        75% {
+          -webkit-transform: translateX(10px);
+        }
+        100% {
+          -webkit-transform: translateX(0);
+        }
+      }
+      @keyframes leftRight {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-10px);
+        }
+        75% {
+          transform: translateX(10px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="flex flex-col md:flex-row schedule">
+      <div class="w-full md:w-1/5 bg-white p-4">
+        <div class="flex flex-col space-y-2">
+          <button
+            class="p-2 text-gray-700 font-semibold rounded"
+            onclick="loadDaysContent()"
+            id="locationDaysBtn"
+          >
+            Step 1 날짜 확인
+          </button>
+          <button
+            class="p-2 text-gray-700 font-semibold rounded"
+            id="locationAttractionBtn"
+          >
+            Step 2 장소 선택
+          </button>
+          <button
+            class="p-2 text-gray-700 font-semibold rounded"
+            id="locationLodgingBtn"
+          >
+            Step 3 숙소 선택
+          </button>
+          <button
+            class="p-2 text-gray-700 font-semibold rounded"
+            id="locationConvBtn"
+          >
+            Step 3 편의시설 확인
+          </button>
+          <button
+            class="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            id="locationSaveBtn"
+          >
+            일정생성
+          </button>
+        </div>
+      </div>
+
+      <div class="w-full md:w-3/4 p-4">
+        <div
+          class="bg-white p-4 rounded-lg shadow-md flex flex-col md:flex-row"
+          id="formContent"
+        >
+          <div class="bg-white p-4 rounded-lg shadow-md" style="flex: 1">
+            <h2 id="searchURL" class="text-xl font-semibold mb-mainSearch4">
+              {{first.search}}
+            </h2>
+            <div class="flex space-x-4">
+              <button
+                class="text-xl font-semibold mb-4 bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600"
+                id="recBtn"
+                onclick="loadAttractionContent()"
+              >
+                추천장소
+              </button>
+              <button
+                class="text-xl font-semibold mb-4 bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600"
+                id="dirBtn"
+                onclick="loadDirectSearchContent()"
+              >
+                직접검색
+              </button>
+            </div>
+            <div class="mb-4" id="attractionContent">
+              <!--
+
+              -->
+            </div>
+          </div>
+          <div
+            class="bg-white p-4 rounded-lg shadow-md"
+            style="font-size: 13px; flex: 1"
+          >
+            
+          <p style="font-size: 18px; font-weight: bold;">
+            장소를 선택해주세요</p><br>
+            <div>
+              {% for data in pickPlans %}
+              <div class="data-row containerT" style="width: 100%">
+                <form action="/search/delete" method="GET">
+                  <input type="hidden" name="id" value="{{data.id}}" />
+
+                  <table
+                    class="rwd-table"
+                    style="width: 100%; background-color: rgb(26, 99, 130)"
+                  >
+                    <tbody>
+                      <tr>
+                        <th>사진</th>
+                        <th>장소이름</th>
+                        <td style="text-align: center">
+                          <button
+                            type="submit"
+                            class="bg-gray-500 text-white px-5 py-2 rounded hover:bg-blue-600"
+                            style="
+                              width: 75px;
+                              height: 40px;
+                              text-align: center;
+                              border: none;
+                              color: white;
+                              border-radius: 5px;
+                            "
+                          >
+                            삭제
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td rowspan="2" data-th="사진"><img src="{{data.photo }}"></td>
+                      </tr>
+
+                      <tr>
+                        <td colspan="2" style="font-weight: bold; color: #333">
+                          {{ data.name }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          colspan="3"
+                          style="
+                            font-size: 13px;
+                            font-weight: bold;
+                            color: gray;
+                          "
+                        >
+                          {{ data.addr }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          colspan="3"
+                          style="
+                            font-size: 13px;
+                            font-weight: bold;
+                            color: gray;
+                          "
+                        >
+                          {{ data.days }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </form>
+              </div>
+              <br />
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="divmap" class="md:flex md:w-full">
+      <div id="map"></div>
+      <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWPWJFuzQtmuoZqrStOHb_aRWdavmolR0&callback=initMap&v=weekly"
+        defer
+      ></script>
+    </div>
+
+    <script>
+      let data = sessionStorage.getItem("tag");
+      let navData = sessionStorage.getItem("nav");
+
+      document
+        .getElementById("locationAttractionBtn")
+        .addEventListener("click", function () {
+          sessionStorage.setItem("nav", "200");
+          window.location.href = "/search/attraction";
+
+          document.getElementById("locationDaysBtn").style.backgroundColor =
+            "rgb(229 231 235)";
+          document.getElementById("locationDaysBtn").style.color = "black";
+          document.getElementById("locationLodgingBtn").style.backgroundColor =
+            "rgb(229 231 235)";
+          document.getElementById("locationLodgingBtn").style.color = "black";
+          document.getElementById(
+            "locationAttractionBtn"
+          ).style.backgroundColor = "#3F83F8";
+          document.getElementById("locationAttractionBtn").style.color =
+            "white";
+          document.getElementById("locationConvBtn").style.backgroundColor =
+            "rgb(229 231 235)";
+          document.getElementById("locationConvBtn").style.color = "black";
+        });
+      document
+        .getElementById("locationLodgingBtn")
+        .addEventListener("click", function () {
+          sessionStorage.setItem("nav", "201");
+          window.location.href = "/search/lodging";
+
+          console.log("nav : " + navData);
+
+          document.getElementById("locationDaysBtn").style.backgroundColor =
+            "rgb(229 231 235)";
+          document.getElementById("locationDaysBtn").style.color = "black";
+          document.getElementById("locationLodgingBtn").style.backgroundColor =
+            "#3F83F8";
+          document.getElementById("locationLodgingBtn").style.color = "white";
+          document.getElementById(
+            "locationAttractionBtn"
+          ).style.backgroundColor = "rgb(229 231 235)";
+          document.getElementById("locationAttractionBtn").style.color =
+            "black";
+          document.getElementById("locationConvBtn").style.backgroundColor =
+            "rgb(229 231 235)";
+          document.getElementById("locationConvBtn").style.color = "black";
+        });
+      document
+        .getElementById("locationConvBtn")
+        .addEventListener("click", function () {
+          sessionStorage.setItem("nav", "202");
+          window.location.href = "http://localhost:8081/place/startConvenience";
+        });
+      document
+        .getElementById("locationSaveBtn")
+        .addEventListener("click", function () {
+          window.location.href = "/save";
+        });
+
+      function sendMessageToParent() {
+        var message = document.getElementById("location").value;
+        window.parent.postMessage(message, "*");
+      }
+
+      // h2 요소의 내용 설정
+      if (inputName != null) {
+        document.getElementById("searchURL").innerText = inputName;
+      }
+
+
+
+
+
+      // **************** 첫 화면 로드 ****************
+      // attractionContent.html 파일을 로드합니다.
+      if (data <= 100 && navData <= 200) {
+        fetch("/attractionContent.html")
+          .then((response) => response.text())
+          .then((html) => {
+            // 로드한 HTML을 DOM에 삽입합니다.
+            console.log("TAG : " + data);
+
+            document.getElementById("attractionContent").innerHTML = html;
+            document.getElementById("recBtn").style.backgroundColor = "white";
+            document.getElementById("recBtn").style.color = "black";
+            document.getElementById("dirBtn").style.backgroundColor = "#3F83F8";
+            document.getElementById("dirBtn").style.color = "white";
+            document.getElementById("locationDaysBtn").style.backgroundColor =
+              "rgb(229 231 235)";
+            document.getElementById("locationDaysBtn").style.color = "black";
+            document.getElementById(
+              "locationLodgingBtn"
+            ).style.backgroundColor = "rgb(229 231 235)";
+            document.getElementById("locationLodgingBtn").style.color = "black";
+            document.getElementById(
+              "locationAttractionBtn"
+            ).style.backgroundColor = "#3F83F8";
+            document.getElementById("locationAttractionBtn").style.color =
+              "white";
+            document.getElementById("locationConvBtn").style.backgroundColor =
+              "rgb(229 231 235)";
+            document.getElementById("locationConvBtn").style.color = "black";
+          })
+          .catch((error) =>
+            console.error("Error fetching attractionContent.html:", error)
+          );
+      } else if (data == 101) {
+        fetch("/lodgingContent")
+          .then((response) => response.text())
+          .then((html) => {
+            // 로드한 HTML을 DOM에 삽입합니다.
+            document.getElementById("attractionContent").innerHTML = html;
+            document.getElementById("recBtn").style.backgroundColor = "#3F83F8";
+            document.getElementById("recBtn").style.color = "white";
+            document.getElementById("dirBtn").style.backgroundColor = "white";
+            document.getElementById("dirBtn").style.color = "black";
+          })
+          .catch((error) =>
+            console.error("Error fetching attractionContent.html:", error)
+          );
+      }
+
+      if (navData == 201) {
+        fetch("/attractionContent.html")
+          .then((response) => response.text())
+          .then((html) => {
+            // 로드한 HTML을 DOM에 삽입합니다.
+            console.log("data : " + data);
+
+            document.getElementById("attractionContent").innerHTML = html;
+            document.getElementById("recBtn").style.backgroundColor = "white";
+            document.getElementById("recBtn").style.color = "black";
+            document.getElementById("dirBtn").style.backgroundColor = "#3F83F8";
+            document.getElementById("dirBtn").style.color = "white";
+            document.getElementById("locationDaysBtn").style.backgroundColor =
+              "rgb(229 231 235)";
+            document.getElementById("locationDaysBtn").style.color = "black";
+            document.getElementById(
+              "locationLodgingBtn"
+            ).style.backgroundColor = "#3F83F8";
+            document.getElementById("locationLodgingBtn").style.color = "white";
+            document.getElementById(
+              "locationAttractionBtn"
+            ).style.backgroundColor = "rgb(229 231 235)";
+            document.getElementById("locationAttractionBtn").style.color =
+              "black";
+            document.getElementById("locationConvBtn").style.backgroundColor =
+              "rgb(229 231 235)";
+            document.getElementById("locationConvBtn").style.color = "black";
+          })
+          .catch((error) =>
+            console.error("Error fetching attractionContent.html:", error)
+          );
+      } else if (navData == 202) {
+        fetch("/attractionContent")
+          .then((response) => response.text())
+          .then((html) => {
+            // 로드한 HTML을 DOM에 삽입합니다.
+            console.log("data : " + data);
+            document.getElementById("attractionContent").innerHTML = html;
+
+            document.getElementById("recBtn").style.backgroundColor = "white";
+            document.getElementById("recBtn").style.color = "black";
+            document.getElementById("dirBtn").style.backgroundColor = "#3F83F8";
+            document.getElementById("dirBtn").style.color = "white";
+            document.getElementById("locationDaysBtn").style.backgroundColor =
+              "rgb(229 231 235)";
+            document.getElementById("locationDaysBtn").style.color = "black";
+            document.getElementById(
+              "locationLodgingBtn"
+            ).style.backgroundColor = "rgb(229 231 235)";
+            document.getElementById("locationLodgingBtn").style.color = "black";
+            document.getElementById(
+              "locationAttractionBtn"
+            ).style.backgroundColor = "rgb(229 231 235)";
+            document.getElementById("locationAttractionBtn").style.color =
+              "black";
+            document.getElementById("locationConvBtn").style.backgroundColor =
+              "#3F83F8";
+            document.getElementById("locationConvBtn").style.color = "white";
+          })
+          .catch((error) =>
+            console.error("Error fetching attractionContent.html:", error)
+          );
+      }
+
+      // **************** 날짜 확인 ****************
+      document
+        .getElementById("locationDaysBtn")
+        .addEventListener("click", function () {
+          // 날짜확인 HTML 파일을 가져와서 표시
+          loadDaysContent();
+          sessionStorage.setItem("nav", "203");
+        });
+
+      // 날짜확인 HTML을 가져와서 표시하는 함수
+      function loadDaysContent() {
+        fetch("/days")
+          .then((response) => response.text())
+          .then((html) => {
+            document.getElementById("formContent").innerHTML = html;
+            console.log("data : " + data);
+
+            document.getElementById("locationDaysBtn").style.backgroundColor =
+              "#3F83F8";
+            document.getElementById("locationDaysBtn").style.color = "white";
+            document.getElementById(
+              "locationLodgingBtn"
+            ).style.backgroundColor = "rgb(229 231 235)";
+            document.getElementById("locationLodgingBtn").style.color = "black";
+            document.getElementById(
+              "locationAttractionBtn"
+            ).style.backgroundColor = "rgb(229 231 235)";
+            document.getElementById("locationAttractionBtn").style.color =
+              "black";
+            document.getElementById("locationConvBtn").style.backgroundColor =
+              "rgb(229 231 235)";
+            document.getElementById("locationConvBtn").style.color = "black";
+          })
+          .catch((error) =>
+            console.error("Error fetching daysConfirm.html:", error)
+          );
+      }
+
+      // **************** 추천 장소 ****************
+      document
+        .getElementById("locationAttractionBtn")
+        .addEventListener("click", function () {
+          // 추천장소 HTML 파일을 가져와서 표시
+          loadAttractionContent();
+        });
+
+      // 추천장소 HTML을 가져와서 표시하는 함수
+      function loadAttractionContent() {
+        fetch("/attractionContent")
+          .then((response) => response.text())
+          .then((html) => {
+            sessionStorage.setItem("tag", "100");
+            document.getElementById("attractionContent").innerHTML = html;
+            document.getElementById("attractionContent").innerHTML += '';
+            document.getElementById("recBtn").style.backgroundColor = "white";
+            document.getElementById("recBtn").style.color = "black";
+            document.getElementById("dirBtn").style.backgroundColor = "#3F83F8";
+            document.getElementById("dirBtn").style.color = "white";
+          })
+          .catch((error) =>
+            console.error("Error fetching attractionContent.html:", error)
+          );
+      }
+
+      // **************** 직접 검색 ****************
+      // 직접검색 버튼 클릭 시
+      document
+        .getElementById("locationDirectSearchBtn")
+        .addEventListener("click", function () {
+          loadDirectSearchContent();
+          document.getElementById("locationAttractionBtn").disabled = true;
+        });
+
+      // 직접검색 HTML을 가져와서 표시하는 함수
+      function loadDirectSearchContent() {
+        fetch("/lodgingContent")
+          .then((response) => response.text())
+          .then((html) => {
+            sessionStorage.setItem("tag", "101");
+            document.getElementById("attractionContent").innerHTML = html;
+            document.getElementById("dirBtn").style.backgroundColor = "white";
+            document.getElementById("dirBtn").style.color = "black";
+            document.getElementById("recBtn").style.backgroundColor = "#3F83F8";
+            document.getElementById("recBtn").style.color = "white";
+          })
+          .catch((error) =>
+            console.error("Error fetching lodgingContent.html:", error)
+          );
+      }
+
+      // **************** 오른쪽 뷰  ****************
+
+      // 저장 버튼 클릭 시
+      document
+        .getElementById("locationSaveBtn")
+        .addEventListener("click", function () {
+          // 직접검색 HTML 파일을 가져와서 표시
+          loadDirectSearchContent();
+        });
+
+      // DraftView HTML을 가져와서 표시하는 함수
+      function loadSaveContent() {
+        fetch("/search/temp")
+          .then((response) => response.text())
+          .then((html) => {
+            document.getElementById("Temp").innerHTML = html;
+          })
+          .catch((error) => console.error("Error fetching new.html:", error));
+      }
+
+
+    </script>
+  </body>
+</html>

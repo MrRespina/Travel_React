@@ -1,10 +1,189 @@
 const express = require("express"); // npm i express | yarn add express
 const bodyParser = require('body-parser');
 const puppeteer = require("puppeteer");
+const path = require("path");
+const morgan = require("morgan");
+const nunjucks = require("nunjucks");
 const cors    = require("cors");    // npm i cors | yarn add cors
 const mysql   = require("mysql2");   // npm i mysql | yarn add mysql
 const app     = express();
 const PORT    = 3001; // 포트번호 설정
+
+// Route 설정
+const searchRoute = require("./router/search");
+const geocodeRoute = require("./router/geocode");
+
+// 모델들 정리
+const { First, Plan, Category, DraftView, Final } = require("./models");
+
+// ./models/index.js를 불러옴
+const { sequelize } = require("./models");
+const cookieParser = require("cookie-parser");
+
+const apiKey = "AIzaSyAWPWJFuzQtmuoZqrStOHb_aRWdavmolR0"; // 여기에 구글 맵스 API 키 입력
+let keyValue;
+
+app.set("view engine", "html");
+nunjucks.configure("views", {
+  express: app,
+  watch: true,
+});
+
+// db.sequelize를 불러와서 sync메서드를 사용해 서버를 실행할 때 MySQL과 연동되도록 했음
+// force: true로 설정하면 서버를 실행할 때마다 테이블을 재생성한다.
+// 테이블을 잘못 만든 경우에 true로 설정하면 된다.
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.use("/public", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static(path.join(__dirname, "views")));
+app.use(cookieParser());
+// MySQL과 연동할 때는 config 폴더 안의 config.json 정보가 사용된다.
+
+// MySQL 연결
+const db = mysql.createPool({
+    host: "127.0.0.1", // 호스트
+    user: "root",      // 데이터베이스 계정
+    password: "respina7524",      // 데이터베이스 비밀번호
+    database: "Travel",  // 사용할 데이터베이스
+});
+
+app.use(cors({
+    origin: "*",                // 출처 허용 옵션
+    credentials: true,          // 응답 헤더에 Access-Control-Allow-Credentials 추가
+    optionsSuccessStatus: 200,  // 응답 상태 200으로 설정
+}));
+
+function clear() {
+    console.log("클리어 실행 || 최종 DB 제외");
+    First.truncate({});
+    Plan.truncate({});
+    Category.truncate({});
+    DraftView.truncate({});
+  }
+
+app.get("/", async (req, res) => {
+    clear();
+    let finals = await Final.findAll({});
+  
+    res.render("main.html", {
+      finals: finals,
+    });
+  });
+
+  app.get("/days", async (req, res) => {
+    let first = await First.findOne({});
+    res.render("daysConfirm.html", { data: first }); // firsts 변수를 템플릿에 전달
+  });
+  
+  app.get("/first", async (req, res) => {
+    const first = await First.findOne({});
+    res.json(first);
+  });
+  
+  app.get("/mainpage", async (req, res) => {
+    let first = await First.findOne({});
+    // 시작일
+    let dataString = req.query.start_day;
+    const parts = dataString.split(".");
+    const start_day = {
+      year : parseInt(parts[0]),
+      month : parseInt(parts[1]),
+      day : parseInt(parts[2]),
+    }
+    // 종료일
+    let dataString2 = req.query.end_day;
+    const parts2 = dataString.split(".");
+    const end_day = {
+      year : parseInt(parts[0]),
+      month : parseInt(parts[1]),
+      day : parseInt(parts[2]),
+    }
+  
+    console.log(start_day.year); // 2024
+    console.log(start_day.month); // 3
+    console.log(start_day.day); // 15
+  
+    res.render("mainpage.html", {
+      first: first, start_day, end_day
+    });
+  });
+
+  app.get("/attractionContent", async (req, res) => {
+    let plans = await Plan.findAll({});
+    let first = await First.findOne({});
+  
+    res.render("attractionContent.html", {
+      first: first,
+      plans: plans,
+    });
+  });
+  
+  
+  app.get("/lodgingContent", async (req, res) => {
+    let plans = await Plan.findAll({});
+    let first = await First.findOne({});
+  
+    res.render("lodgingContent.html", {
+      first: first,
+      plans: plans,
+    });
+  });
+  
+  app.get("/save", async (req, res) => {
+    let DraftViews = await DraftView.findAll({});
+    let first = await First.findOne({});
+    keyValue = first.start_day + "admin" + first.createdAt;
+    
+    // Plan 생성
+    for (let i = 0; i < DraftViews.length; i++) {
+      let createdFinal = await Final.create({
+        key: keyValue,
+        user: "admin",
+        search: first.name,
+        name: DraftViews[i].name,
+        addr: DraftViews[i].addr,
+        lat: DraftViews[i].lat,
+        lng: DraftViews[i].lng,
+        dDay: DraftViews[i].days,
+        photo: DraftViews[i].photo,
+      });  
+    }
+  
+    await clear();
+    res.redirect(302, "/");
+  });
+  
+  app.post("/delete", async (req, res) => {
+    let deleteKey = req.body.key;
+    await Final.destroy({
+      where: {
+        key: deleteKey, 
+      },
+    });
+    await clear();
+    res.redirect(302, "/");
+  });
+  
+  
+  // 라우터 정의
+  app.use("/search", searchRoute);
+  
+  app.use("/geocode", geocodeRoute);
+
+  
 
 const getHTML = async(goDay,goMonth,toDay,toMonth,goLocation,toLocation) =>{
     try{
@@ -128,24 +307,6 @@ async function autoScroll(page){
         });
     });
 }
-
-// MySQL 연결
-const db = mysql.createPool({
-    host: "127.0.0.1", // 호스트
-    user: "root",      // 데이터베이스 계정
-    password: "respina7524",      // 데이터베이스 비밀번호
-    database: "Travel",  // 사용할 데이터베이스
-});
-
-app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-
-app.use(cors({
-    origin: "*",                // 출처 허용 옵션
-    credentials: true,          // 응답 헤더에 Access-Control-Allow-Credentials 추가
-    optionsSuccessStatus: 200,  // 응답 상태 200으로 설정
-}));
 
 // post 요청 시 값을 객체로 바꿔줌
 app.use(express.urlencoded({ extended: true }));
