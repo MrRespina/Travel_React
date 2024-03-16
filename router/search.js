@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const fetch = require('esm')(module)('node-fetch');
+const fetch = require('node-fetch');
 
 const { First, Plan, Category, DraftView } = require("../models"); 
 
