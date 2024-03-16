@@ -11,7 +11,7 @@ let responseDiv;
 let response;
 
 const urlParams = new URLSearchParams(window.location.search);
-let inputName = urlParams.get("name"); // 'name'은 폼 필드의 이름입니다.
+let inputName = urlParams.get("myLocation"); // 'name'은 폼 필드의 이름입니다.
 const inputStartDay = urlParams.get("start_day"); 
 const inputEndDay = urlParams.get("end_day"); 
 let inputSearch = urlParams.get("search"); 

@@ -1,6 +1,8 @@
-@import 'https://fonts.googleapis.com/css?family=Open+Sans:600,700';
+@import "https://fonts.googleapis.com/css?family=Open+Sans:600,700";
 
-* {font-family: 'Open Sans', sans-serif;}
+* {
+  font-family: "Open Sans", sans-serif;
+}
 
 .rwd-table {
   margin: auto;
@@ -34,11 +36,11 @@
 }
 
 .rwd-table td:first-child {
-  margin-top: .5em;
+  margin-top: 0.5em;
 }
 
 .rwd-table td:last-child {
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
 .rwd-table td:before {
@@ -56,7 +58,7 @@
 
 .rwd-table {
   color: #333;
-  border-radius: .4em;
+  border-radius: 0.4em;
   overflow: hidden;
 }
 
@@ -66,7 +68,7 @@
 
 .rwd-table th,
 .rwd-table td {
-  padding: .5em 1em;
+  padding: 0.5em 1em;
 }
 @media screen and (max-width: 601px) {
   .rwd-table tr:nth-child(2) {
@@ -83,7 +85,7 @@
   .rwd-table th,
   .rwd-table td {
     display: table-cell;
-    padding: .25em .5em;
+    padding: 0.25em 0.5em;
   }
   .rwd-table th:first-child,
   .rwd-table td:first-child {
@@ -99,21 +101,15 @@
   }
 }
 
-
 /* THE END OF THE IMPORTANT STUFF */
 
 /* Basic Styling */
-body {
-background: #4B79A1;
-background: -webkit-linear-gradient(to left, #4B79A1 , #283E51);
-background: linear-gradient(to left, #4B79A1 , #283E51);        
-}
 h1 {
   text-align: center;
   font-size: 2.4em;
-  color: #f2f2f2;
+  color: black;
 }
-.container {
+.containerT {
   display: block;
   text-align: center;
 }
@@ -139,35 +135,32 @@ h3:after {
   animation: leftRight 2s linear infinite reverse;
 }
 @-webkit-keyframes leftRight {
-  0%    { -webkit-transform: translateX(0)}
-  25%   { -webkit-transform: translateX(-10px)}
-  75%   { -webkit-transform: translateX(10px)}
-  100%  { -webkit-transform: translateX(0)}
+  0% {
+    -webkit-transform: translateX(0);
+  }
+  25% {
+    -webkit-transform: translateX(-10px);
+  }
+  75% {
+    -webkit-transform: translateX(10px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+  }
 }
 @keyframes leftRight {
-  0%    { transform: translateX(0)}
-  25%   { transform: translateX(-10px)}
-  75%   { transform: translateX(10px)}
-  100%  { transform: translateX(0)}
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
-/*
-    Don't look at this last part. It's unnecessary. I was just playing with pixel gradients... Don't judge.
-*/
-/*
-@media screen and (max-width: 601px) {
-  .rwd-table tr {
-    background-image: -webkit-linear-gradient(left, #428bca 137px, #f5f9fc 1px, #f5f9fc 100%);
-    background-image: -moz-linear-gradient(left, #428bca 137px, #f5f9fc 1px, #f5f9fc 100%);
-    background-image: -o-linear-gradient(left, #428bca 137px, #f5f9fc 1px, #f5f9fc 100%);
-    background-image: -ms-linear-gradient(left, #428bca 137px, #f5f9fc 1px, #f5f9fc 100%);
-    background-image: linear-gradient(left, #428bca 137px, #f5f9fc 1px, #f5f9fc 100%);
-  }
-  .rwd-table tr:nth-child(odd) {
-    background-image: -webkit-linear-gradient(left, #428bca 137px, #ebf3f9 1px, #ebf3f9 100%);
-    background-image: -moz-linear-gradient(left, #428bca 137px, #ebf3f9 1px, #ebf3f9 100%);
-    background-image: -o-linear-gradient(left, #428bca 137px, #ebf3f9 1px, #ebf3f9 100%);
-    background-image: -ms-linear-gradient(left, #428bca 137px, #ebf3f9 1px, #ebf3f9 100%);
-    background-image: linear-gradient(left, #428bca 137px, #ebf3f9 1px, #ebf3f9 100%);
-  }
-}*/
+

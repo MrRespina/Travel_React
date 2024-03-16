@@ -50,7 +50,6 @@ class Plan extends Sequelize.Model {
     }
 
     static associate(db) {
-        
     }
 };
 

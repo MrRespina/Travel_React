@@ -9,17 +9,13 @@ class DraftView extends Sequelize.Model {
                 primaryKey: true,
                 autoIncrement: true
             },
-            planId : {
+            f_id : {
                 type: Sequelize.INTEGER,
-                allowNull: false
-            },
-            user : {
-                type: Sequelize.STRING(50),
-                allowNull: false
+                allowNull: true
             },
             name: {
                 type: Sequelize.STRING(100),
-                allowNull: false,
+                allowNull: true,
             },
             addr: {
                 type: Sequelize.STRING(100),
@@ -33,9 +29,14 @@ class DraftView extends Sequelize.Model {
                 type: Sequelize.DOUBLE,
                 allowNull: false
             },
-            days: {
+            category: {
                 type: Sequelize.STRING(50),
-                allowNull: false
+                allowNull: true,
+                defaultValue: 'lanmark' 
+            },
+            dDay: {
+                type: Sequelize.STRING(50),
+                allowNull: true
             },
             photo : {
                 type: Sequelize.TEXT,
@@ -43,7 +44,7 @@ class DraftView extends Sequelize.Model {
             },
         }, {
             sequelize,
-            timestamps: false,
+            timestamps: true,
             underscored: false,
             modelName: 'DraftView',
             tableName: 'draftViews',

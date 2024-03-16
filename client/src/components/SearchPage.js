@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import '../css/SearchPage.css';
 
 class SearchPage extends Component{
@@ -122,7 +121,7 @@ class SearchPage extends Component{
                     </div>
                     <div className="flex space-x-2" style={{height: '100%'}}>
                         <GoComp goDate={this.state.year+"."+this.state.goRealMonth+"."+this.state.goDay}
-                        toDate={this.state.year+"."+this.state.goRealMonth+"."+this.state.goDay} myLocation={this.state.myLocation}>
+                        toDate={this.state.year+"."+this.state.goRealMonth+"."+this.state.toDay} myLocation={this.state.myLocation}>
                         </GoComp>                           
                     </div>                    
                 </div>
@@ -210,8 +209,8 @@ const GoComp = ({ goDate,toDate,myLocation }) => {
 
     const handleSearch = () => {
         const queryParams = new URLSearchParams({
-            goDate: goDate,
-            toDate: toDate,
+            start_day: goDate,
+            end_day: toDate,
             myLocation: myLocation
         }).toString();
 

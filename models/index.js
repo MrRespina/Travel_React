@@ -2,7 +2,6 @@
 const Sequelize = require('sequelize');
 const First = require('./first');
 const Plan = require('./plan');
-const Category = require('./category');
 const DraftView = require('./draftView');
 const Final = require('./final');
 
@@ -18,19 +17,16 @@ db.sequelize = sequelize;
 
 db.First = First;
 db.Plan = Plan;
-db.Category = Category;
 db.DraftView = DraftView;
 db.Final = Final;
 
 First.initiate(sequelize);
 Plan.initiate(sequelize);
-Category.initiate(sequelize);
 DraftView.initiate(sequelize);
 Final.initiate(sequelize);
 
 First.associate(db);
 Plan.associate(db);
-Category.associate(db);
 DraftView.associate(db);
 Final.associate(db);
 

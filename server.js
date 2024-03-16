@@ -70,7 +70,6 @@ function clear() {
     console.log("클리어 실행 || 최종 DB 제외");
     First.truncate({});
     Plan.truncate({});
-    Category.truncate({});
     DraftView.truncate({});
   }
 
@@ -97,7 +96,10 @@ app.get("/", async (req, res) => {
     let first = await First.findOne({});
     // 시작일
     let dataString = req.query.start_day;
+    console.log(dataString);
+
     const parts = dataString.split(".");
+    console.log(parts);
     const start_day = {
       year : parseInt(parts[0]),
       month : parseInt(parts[1]),
@@ -105,19 +107,15 @@ app.get("/", async (req, res) => {
     }
     // 종료일
     let dataString2 = req.query.end_day;
-    const parts2 = dataString.split(".");
+    const parts2 = dataString2.split(".");
     const end_day = {
-      year : parseInt(parts[0]),
-      month : parseInt(parts[1]),
-      day : parseInt(parts[2]),
+      year : parseInt(parts2[0]),
+      month : parseInt(parts2[1]),
+      day : parseInt(parts2[2]),
     }
   
-    console.log(start_day.year); // 2024
-    console.log(start_day.month); // 3
-    console.log(start_day.day); // 15
-  
     res.render("mainpage.html", {
-      first: first, start_day, end_day
+      first: first, 
     });
   });
 
