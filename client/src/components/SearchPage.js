@@ -214,7 +214,7 @@ const GoComp = ({ goDate,toDate,myLocation }) => {
             myLocation: myLocation
         }).toString();
 
-        window.location.href = `http://localhost:3001/mainpage?${queryParams}`;
+        window.location.href = `http://ec2-15-165-76-87.ap-northeast-2.compute.amazonaws.com:3001/mainpage?${queryParams}`;
 
     };
 
