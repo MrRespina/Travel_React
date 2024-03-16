@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const fetch = require("node-fetch");
+const fetch = require('esm')(module)('node-fetch');
+
 const { First, Plan, Category, DraftView } = require("../models"); 
 
 const apiKey = "AIzaSyAWPWJFuzQtmuoZqrStOHb_aRWdavmolR0"; 
@@ -61,7 +62,7 @@ router.get("/attraction", async (req, res) => {
       .status(404)
       .json({ error: "Location not found in the database" });
   }
-  
+
   const apiType = "nearbysearch";
   const { lat, lng } = location;
   const baseUrl = `https://maps.googleapis.com/maps/api/place/${apiType}/json?`;
