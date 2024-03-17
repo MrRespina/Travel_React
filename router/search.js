@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const fetch = require('esm')(module)('node-fetch');
+const fetch = require('node-fetch');
 
 const { First, Plan, Category, DraftView } = require("../models"); 
 
@@ -87,7 +87,7 @@ router.get("/attraction", async (req, res) => {
     let createdPlan = await Plan.create({
       user: "admin",
       name: data.results[i].name,
-      addr: data.results[i].formatted_address,
+      addr: data.results[i].vicinity,
       lat: data.results[i].geometry.location.lat,
       lng: data.results[i].geometry.location.lng,
       start_day: "2024-03-11 07:00",
@@ -185,6 +185,7 @@ router.get("/temp", async (req, res) => {
   });
 
   if (pickPlan) {
+    console.log(urlid,pickPlan.name,pickPlan.addr,pickPlan.lat,pickPlan.lng);
     let createdDraftView = await DraftView.create({
       planId: urlid,
       days: 1,
